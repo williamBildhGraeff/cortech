@@ -1,0 +1,17 @@
+from django.db import models
+from usuarios.models import Usuario
+from empresa.models import Empresa
+
+class UsuarioEmpresa(models.Model):
+
+ usuario = models.ForeignKey(
+  Usuario,
+  on_delete = models.CASCADE 
+ )
+ empresa = models.ForeignKey(
+  Empresa,
+  on_delete = models.CASCADE
+ )
+
+ def __str__(self):
+  return f"{self.usuario.nome} ({self.empresa.nome})"
