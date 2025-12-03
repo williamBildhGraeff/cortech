@@ -1,0 +1,1 @@
+from .fazenda_view import FazendaViewSet

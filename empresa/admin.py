@@ -1,6 +1,5 @@
 # Register your models here.
 from django.contrib import admin
-from .models import Empresa, Endereco
+from .models import Empresa
 
 admin.site.register(Empresa)
-admin.site.register(Endereco)

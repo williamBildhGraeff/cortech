@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from empresa.models import Empresa,Endereco
-from .endereco_serializer import EnderecoSerializer
+from empresa.models import Empresa
+from endereco.models import Endereco
+from endereco.serializer import EnderecoSerializer
 from empresa.utils.validators import validar_cnpj
 
 # Este serializer é avançado:

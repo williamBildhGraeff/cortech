@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'produtos',
     'empresa',
     'fazendas',
-    'usuarios.apps.UsuariosConfig'
+    'usuarios.apps.UsuariosConfig',
+    'endereco'
 ]
 
 MIDDLEWARE = [
