@@ -1,0 +1,38 @@
+# Virtualenv
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables
+.env
+*.env
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+
+# VSCode
+.vscode/
+
+# Backup files
+*.bak
+
+# Cache
+*.swp
+*.swo
+
+# MacOS
+.DS_Store
