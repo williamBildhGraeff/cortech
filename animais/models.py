@@ -25,12 +25,12 @@ class Animal(models.Model):
   ("menor_12_meses", "Menor que 12 meses")
  ]
 
- brinco = models.CharField(max_length = 100)
+ brinco = models.CharField(max_length = 100, unique = True)
  sexo = models.CharField(max_length = 1, choices = SEXO_CHOICES, default = 'F')
  categoria = models.CharField(max_length = 20, choices = CATEGORIA_CHOICES, default = 'novilho')
  raca = models.CharField(max_length = 500, null = True, blank = True)
  origem = models.CharField(max_length = 20, choices = ORIGEM_CHOICES, default = 'compra')
- idade = models.CharField(max_length = 20, choices = IDADE_CHOICES)
+ idade = models.CharField(max_length = 20, choices = IDADE_CHOICES, default = 'menor_12_meses')
  ganho_acumulado = models.FloatField(default = 0)
  score_rendimento = models.FloatField(default = 0)
  lote = models.ForeignKey(
