@@ -1,0 +1,2 @@
+from .manejo_serializer  import ManejoSerializer
+from .tipo_manejo_serializer import TipoManejoSerializer

@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/', include('fazendas.urls')),
     path('api/', include('lote.urls')),
     path('api/', include('animais.urls')),
-    path('api/', include('pesagens.urls'))
+    path('api/', include('pesagens.urls')),
+    path('api/', include('manejos.urls'))
 ]
