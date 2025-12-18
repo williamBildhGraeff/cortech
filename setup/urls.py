@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/', include('lote.urls')),
     path('api/', include('animais.urls')),
     path('api/', include('pesagens.urls')),
-    path('api/', include('manejos.urls'))
+    path('api/', include('manejos.urls')),
+    path('api/', include('anomalias.urls')),
 ]

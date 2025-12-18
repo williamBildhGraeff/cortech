@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'fazendas',
     'usuarios.apps.UsuariosConfig',
     'endereco',
-    'manejos'
+    'manejos',
+    'anomalias'
 ]
 
 MIDDLEWARE = [

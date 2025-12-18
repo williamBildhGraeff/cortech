@@ -1,0 +1,2 @@
+from .tipo_anomalia_view import TipoAnomaliaViewSet
+from .anomalia_view import AnomaliaViewSet
