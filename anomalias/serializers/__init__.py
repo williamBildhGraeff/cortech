@@ -1,0 +1,2 @@
+from .anomalia_serializer import AnomaliaSerializer
+from .tipo_anomalia_serializer import TipoAnomaliaSerializer
