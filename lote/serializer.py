@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from .models import Lote
 class LoteSerializer(serializers.ModelSerializer):
  class Meta:
-  model = Lote
+  model = "lote.Lote"
   fields = '__all__'
-  read_only = ['id', 'updated_at', 'created_at']
+  read_only_fields = ['id', 'updated_at', 'created_at']

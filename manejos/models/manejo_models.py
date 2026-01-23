@@ -1,16 +1,13 @@
 from django.db import models
-from animais.models import Animal
-from lote.models import Lote
-from .tipo_manejo_models import TipoManejo
 
 class Manejo(models.Model):
  animal = models.ForeignKey(
-  Animal,
+  "animais.Animal",
   on_delete = models.CASCADE,
   related_name = 'manejos'
  )
  tipo = models.ForeignKey(
-  TipoManejo,
+  "manejos.TipoManejo",
   on_delete = models.CASCADE,
   related_name = 'manejos'
  )
@@ -19,7 +16,7 @@ class Manejo(models.Model):
  peso = models.FloatField(null = True, blank = True)
 
  lote = models.ForeignKey(
-  Lote,
+  "lote.Lote",
   on_delete = models.SET_NULL,
   null = True,
   blank = True

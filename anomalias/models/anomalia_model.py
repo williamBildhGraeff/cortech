@@ -1,10 +1,9 @@
 from django.db import models
-from animais.models import Animal
 from .tipo_anomalia_model import TipoAnomalia
 
 class Anomalia(models.Model):
  animal = models.ForeignKey(
-  Animal,
+  "animais.Animal",
   on_delete = models.CASCADE,
   related_name = 'anomalias'
  )

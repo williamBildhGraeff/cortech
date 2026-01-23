@@ -17,7 +17,7 @@ class EmpresaSerializer(serializers.ModelSerializer):
  # Isso é chamado de "nested serializer"
  endereco = EnderecoSerializer()
  class Meta: 
-  model = Empresa
+  model = "empresa.Empresa"
   fields = '__all__'
   read_only_fields = ['id', 'updated_at']
  

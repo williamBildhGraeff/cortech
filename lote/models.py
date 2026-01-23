@@ -1,5 +1,4 @@
 from django.db import models
-from fazendas.models import Fazenda
 
 class Lote(models.Model):
  STATUS = [
@@ -15,7 +14,7 @@ class Lote(models.Model):
  raca_majoritaria = models.CharField(max_length = 100, null = True, blank = True)
  status = models.CharField(max_length = 100, choices = STATUS, default = 'ativo')
  fazenda = models.ForeignKey(
-  Fazenda,
+  "fazendas.Fazenda",
   on_delete = models.CASCADE,
   related_name = 'lotes'
  )

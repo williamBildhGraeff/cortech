@@ -1,5 +1,4 @@
 from django.db import models
-from animais.models import Animal
 from django.utils import timezone
 
 class Pesagem(models.Model):
@@ -8,7 +7,7 @@ class Pesagem(models.Model):
   ('importacao', 'Importação'),
  )
  animal = models.ForeignKey(
-  Animal,
+  "animais.Animal",
   on_delete = models.CASCADE,
   related_name = 'pesagens'
  )

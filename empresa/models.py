@@ -15,7 +15,7 @@ class Empresa(models.Model):
  nome = models.CharField(max_length = 100)
  cnpj = models.CharField(max_length = 30)
  endereco = models.ForeignKey(
-  Endereco, 
+  "endereco.Endereco", 
   on_delete = models.CASCADE,
   )
  updated_at = models.DateTimeField(auto_now = True)

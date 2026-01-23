@@ -8,7 +8,7 @@ router = DefaultRouter()
 router.register(r'pesagens', PesagemViewSet, basename = 'pesagens')
 
 urlpatterns = [
- path('importar-pesagem', ImportarPesagensCSV.as_view(), name = 'importar-pesagens'),
+ path('lotes/<int:lote_id>/importar-pesagem', ImportarPesagensCSV.as_view(), name = 'importar-pesagens'),
  path('exportar-pesagem/', ExportarCsvPesagem.as_view(), name = 'exportar-pesagens')
 ]
 

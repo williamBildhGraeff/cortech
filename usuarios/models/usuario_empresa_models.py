@@ -1,7 +1,5 @@
 from django.db import models
 from usuarios.models import Usuario
-from empresa.models import Empresa
-
 class UsuarioEmpresa(models.Model):
 
  usuario = models.ForeignKey(
@@ -9,7 +7,7 @@ class UsuarioEmpresa(models.Model):
   on_delete = models.CASCADE 
  )
  empresa = models.ForeignKey(
-  Empresa,
+  "empresa.Empresa",
   on_delete = models.CASCADE
  )
 
