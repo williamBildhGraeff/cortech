@@ -15,13 +15,17 @@ class ImportarPesagensCSV(APIView):
    return Response ({"erro": "Nenhum arquivo enviado"}, status = 400)
   
   try:
-   dados = arquivo.read().decode("utf-8").splitlines()
-   leitor = csv.DictReader(dados, delimiter = ";")
+    conteudo = arquivo.read().decode("utf-8")
+    sample = conteudo[:2048]
+    dialect = csv.Sniffer().sniff(sample, delimiters=";,")
+    delimitador = dialect.delimiter
+    dados = conteudo.splitlines()
+    leitor = csv.DictReader(dados, delimiter=delimitador)
   except Exception as e:
-   return Response(
-    {"erro": f"Não foi possível ler o arquivo: {e}"},
-    status=status.HTTP_400_BAD_REQUEST
-   )
+    return Response(
+      {"erro": f"Não foi possível ler o arquivo: {e}"},
+      status=status.HTTP_400_BAD_REQUEST
+    )
 
   inseridos = 0
   erros = []
@@ -29,6 +33,7 @@ class ImportarPesagensCSV(APIView):
   for linha in leitor:
    try:
     brinco = linha.get("VID")
+    classificacao = linha.get("CLASSIFICACA")
     data = parse_date(linha.get("Date"))
     sexo = "F"
     if linha.get("SEXO") == "MACHO":
@@ -65,22 +70,10 @@ class ImportarPesagensCSV(APIView):
     animal.lote_id = lote_id
     animal.status = "transferido"
     animal.save()
-
-    
-
-    
-
-    # Pesagem.objects.update_or_create(
-    #   animal=animal,
-    #   data=data,
-    #   defaults={
-    #       "peso": peso,
-    #       "origem": "importacao"
-    #   }
-    # )
     pesagem, created = Pesagem.objects.update_or_create(
       animal=animal,
       data=data,
+      classificacao=str(classificacao),
       defaults={
         "peso": peso,
         "origem": "importacao"

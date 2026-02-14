@@ -3,7 +3,7 @@ from django.db import models
 class Lote(models.Model):
  STATUS = [
   ('ativo', 'Ativo'),
-  ('Fechado', 'Fechado'),
+  ('fechado', 'Fechado'),
   ('vendido', 'Vendido')
  ]
  nome = models.CharField(max_length = 100)
@@ -19,7 +19,7 @@ class Lote(models.Model):
   related_name = 'lotes'
  )
  created_at = models.DateTimeField(auto_now_add = True)
- updated_at = models.DateField(auto_now = True)
+ updated_at = models.DateTimeField(auto_now = True)
 
  def __str__(self):
   return f"{self.nome} ({self.fazenda.nome})"

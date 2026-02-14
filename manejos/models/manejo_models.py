@@ -1,31 +1,37 @@
 from django.db import models
 
 class Manejo(models.Model):
- animal = models.ForeignKey(
-  "animais.Animal",
-  on_delete = models.CASCADE,
-  related_name = 'manejos'
- )
- tipo = models.ForeignKey(
-  "manejos.TipoManejo",
-  on_delete = models.CASCADE,
-  related_name = 'manejos'
- )
- observacao = models.TextField(null = True, blank = True)
- data = models.DateField()
- peso = models.FloatField(null = True, blank = True)
+    tipo = models.ForeignKey(
+        "manejos.TipoManejo",
+        on_delete=models.CASCADE,
+        related_name='manejos'
+    )
 
- lote = models.ForeignKey(
-  "lote.Lote",
-  on_delete = models.SET_NULL,
-  null = True,
-  blank = True
- )
+    data = models.DateField(auto_now_add=True)
+    observacao = models.TextField(null=True, blank=True)
 
- def save(self, *args, **kwargs):
-  self.lote = self.animal.lote
-  super().save(*args, **kwargs)
+    lote_origem = models.ForeignKey(
+        "lote.Lote",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='manejos_origem'
+    )
 
- def __str__(self):
-  tipo_nome = self.tipo.nome if self.tipo else "Sem Tipo"
-  return f'{self.tipo.nome} - Animal {self.animal.brinco} - {self.data}'
+    lote_destino = models.ForeignKey(
+        "lote.Lote",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='manejos_destino'
+    )
+
+    animais = models.ManyToManyField(
+        "animais.Animal",
+        related_name='manejos'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+def __str__(self):
+  return f'{self.tipo.nome} | {self.animais.count()} animais | {self.data}'

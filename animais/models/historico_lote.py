@@ -20,7 +20,7 @@ class HistoricoLoteAnimal(models.Model):
         related_name="historico_como_destino",
     )
     data = models.DateField()
-    origem = models.CharField(max_length=20, choices=ORIGEM_CHOICES)
+    origem = models.CharField(max_length=20, choices=ORIGEM_CHOICES, default="manual")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,6 +32,10 @@ class HistoricoLoteAnimal(models.Model):
             models.Index(fields=["lote_destino"]),
         ]
         verbose_name_plural = "Históricos de Lote de Animais"
+    
+    def clean(self):
+        if self.lote_origem == self.lote_destino:
+            raise ValidationError("Lote origem e destino não podem ser iguais.")
 
     def __str__(self):
         return f"{self.animal.brinco} {self.lote_origem} → {self.lote_destino}"

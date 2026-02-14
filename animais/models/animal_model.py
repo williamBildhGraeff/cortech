@@ -37,11 +37,11 @@ class Animal(models.Model):
     raca = models.CharField(max_length = 500, null = True, blank = True)
     origem = models.CharField(max_length = 20, choices = ORIGEM_CHOICES, default = 'compra')
     idade = models.CharField(max_length = 20, choices = IDADE_CHOICES, default = 'menor_12_meses')
-    ganho_acumulado = models.FloatField(default = 0)
-    score_rendimento = models.FloatField(default = 0)
+    ganho_acumulado = models.DecimalField(max_digits=10, decimal_places=3, default=0)
+    score_rendimento = models.DecimalField(max_digits=10, decimal_places=3, default=0)
     lote = models.ForeignKey(
         "lote.Lote",
-        on_delete = models.CASCADE,
+        on_delete = models.PROTECT,
         related_name = 'animais'
     )
     status = models.CharField(max_length=20, choices = STATUS_CHOICES, default = 'ativo')

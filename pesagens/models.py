@@ -11,10 +11,18 @@ class Pesagem(models.Model):
   on_delete = models.CASCADE,
   related_name = 'pesagens'
  )
+
+ classificacao = models.CharField(
+  max_length=10,
+  null=True,
+  blank=True
+ )
  data = models.DateField(default = timezone.now)
  peso = models.DecimalField(max_digits = 6, decimal_places = 2)
  gmd_calculado_automatico = models.DecimalField(max_digits = 6, decimal_places = 2, null = True, blank = True)
  origem = models.CharField(max_length = 20, choices = ORIGEM_CHOICES, default = 'manual')
+ 
+   
  def __str__(self):
   return f"{self.animal.brinco} - {self.peso} kg ({self.data})"
 

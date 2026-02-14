@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 from .views import PesagemViewSet
-from .views import ImportarPesagensCSV
-from .views import ExportarCsvPesagem
+from .services import ImportarPesagensCSV
+from .views.export_view import ExportarCsvPesagem
 from django.urls import path
 
 router = DefaultRouter()
