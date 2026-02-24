@@ -1,29 +1,33 @@
+
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from empresa.models import Empresa
-from django.contrib.auth.hashers import make_password
+from usuarios.managers import UsuarioManager
 
-# Create your models here.
-class Usuario(models.Model):
- TIPO_USUARIO = [
-  ('admin', 'Administrador'),
-  ('tecnico', 'Técnico'),
-  ('produtor', 'Produtor')
- ]
- nome = models.CharField(max_length = 100)
- email = models.CharField(max_length = 100) 
- senha_hash = models.CharField(max_length = 100)
- empresa = models.ForeignKey(
-  Empresa,
-  on_delete = models.CASCADE,
-  blank = False,
-  null = False
- )
- role = models.CharField(max_length = 8, choices=TIPO_USUARIO)
+class Usuario(AbstractBaseUser, PermissionsMixin):
 
- def __str__(self):
-  return f"{self.nome}"
+    TIPO_USUARIO = [
+        ('admin', 'Administrador'),
+        ('tecnico', 'Técnico'),
+        ('produtor', 'Produtor')
+    ]
 
- def save(self, *args, **kwargs):
-  if not self.senha_hash.startswith('pbkdf2_'):
-   self.senha_hash = make_password(self.senha_hash)
-  super().save(*args, **kwargs)
+    nome = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=10, choices=TIPO_USUARIO)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    empresas = models.ManyToManyField(
+        "empresa.Empresa",
+        through="UsuarioEmpresa",
+        related_name="usuarios"
+    )
+
+    objects = UsuarioManager()
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["nome"]
+
+    def __str__(self):
+        return self.email
