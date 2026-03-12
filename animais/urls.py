@@ -1,6 +1,7 @@
-from rest_framework.routers import DefaultRouter
-from .views import AnimalViewSet
+from django.urls import path
+from .views import AnimalView
 
-router = DefaultRouter()
-router.register(r'animais', AnimalViewSet, basename = 'animais')
-urlpatterns = router.urls
+urlpatterns = [
+    path('animais/', AnimalView.as_view(), name='animais'),
+    path('animais/<int:id>/', AnimalView.as_view(), name='animais'),
+]
