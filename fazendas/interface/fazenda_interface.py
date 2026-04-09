@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
-class AnimalInterface(ABC):
+class FazendaInterface(ABC):
+    
     @abstractmethod
     def post(self, data):
         pass
 
     @abstractmethod
-    def get(self, id=None): 
+    def get(self, id):
         pass
 
     @abstractmethod

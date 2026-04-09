@@ -1,8 +1,10 @@
 from rest_framework.routers import DefaultRouter
 from .views import AnomaliaViewSet, TipoAnomaliaViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'anomalias', AnomaliaViewSet, basename = 'anomalias')
-router.register(r'tipos-anomalias', TipoAnomaliaViewSet, basename = 'tipos-anomalias')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('tipos-anomalias/', TipoAnomaliaViewSet.as_view(), name='tipos-anomalias'),
+    path('tipos-anomalias/<int:id>/', TipoAnomaliaViewSet.as_view(), name='tipos-anomalias'),
+     path('anomalias/', AnomaliaViewSet.as_view(), name='anomalias'),
+    path('anomalias/<int:id>/', AnomaliaViewSet.as_view(), name='anomalias')
+]

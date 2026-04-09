@@ -1,7 +1,7 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import FazendaViewSet
 
-router = DefaultRouter()
-router.register(r'fazendas', FazendaViewSet, basename = 'fazendas')
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('fazendas/', FazendaViewSet.as_view(), name='fazendas'),
+    path('fazendas/<int:id>/', FazendaViewSet.as_view(), name='fazenda'),
+]

@@ -8,14 +8,13 @@ class AnimalService(AnimalInterface):
         self.score_rendimento(animal)
         return animal
 
-    def get(self):
+    def get(self, id=None):
+        if id:
+            return get_object_or_404(Animal, id=id)
         return Animal.objects.all()
 
-    def get_id(self, id):
-        return Animal.objects.get(id=id)
-
     def put(self, id, data):
-        animal = get_object_or_404(Animal, id=id)
+        animal = self.get(id=id)
         for key, value in data.items():
             setattr(animal, key, value)
         animal.save()
@@ -23,9 +22,8 @@ class AnimalService(AnimalInterface):
 
 
     def delete(self, id):
-        animal = get_object_or_404(Animal, id=id)
+        animal = self.get(id=id)
         animal.delete()
-        return animal
 
     def score_rendimento(self, animal):
         score = animal.ganho_acumulado

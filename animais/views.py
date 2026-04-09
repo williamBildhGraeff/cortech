@@ -2,21 +2,23 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Animal
 from .serializer import AnimalSerializer
-from .services.animal_service import AnimalService
+from .interfaces.animal_interface import AnimalInterface
+from .factories import get_animal_service
 from rest_framework import status
 
 class AnimalView(APIView):
-    service = AnimalService()
+    def __init__(self, service: AnimalInterface = None, **kwargs):
+        super().__init__(**kwargs)
+        self.service = service or get_animal_service()
+
     def get(self, request, id=None):
-        print(f'id: {id}')
+        animal = self.service.get(id)
         if id: 
-            animal = self.service.get_id(id)
-            animal_serializer = AnimalSerializer(animal)
-            return Response(animal_serializer.data, status=status.HTTP_200_OK)
-        animais = self.service.get()
-        serializer = AnimalSerializer(animais, many=True)
+            serializer = AnimalSerializer(animal)
+        else:
+            serializer = AnimalSerializer(animal, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        
     def post(self,request): 
         serializer = AnimalSerializer(data=request.data)
         if serializer.is_valid():
@@ -25,17 +27,14 @@ class AnimalView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, id):
-        animal = self.service.get_id(id)
+        animal = self.service.get(id)
         serializer = AnimalSerializer(animal, data=request.data)
         if serializer.is_valid():
-            animal = self.service.put(id,serializer.validated_data)
+            animal = self.service.put(id, serializer.validated_data)
             return Response(AnimalSerializer(animal).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, id):
         animal = self.service.delete(id)
-        return Response(AnimalSerializer(animal).data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
-    def get_id(self, request,id):
-        animal = self.service.get_id(id)
-        return Response(AnimalSerializer(animal).data, status=status.HTTP_200_OK)

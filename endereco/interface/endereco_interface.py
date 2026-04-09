@@ -1,18 +1,18 @@
 from abc import ABC, abstractmethod
 
-class AnimalInterface(ABC):
+class EnderecoInterface(ABC):
+    @abstractmethod
+    def get(self, id=None):
+        pass
+
     @abstractmethod
     def post(self, data):
         pass
-
-    @abstractmethod
-    def get(self, id=None): 
-        pass
-
+    
     @abstractmethod
     def put(self, id, data):
         pass
-
-    @abstractmethod
+    
+    @abstractmethod 
     def delete(self, id):
         pass
