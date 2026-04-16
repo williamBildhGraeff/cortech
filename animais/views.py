@@ -35,6 +35,6 @@ class AnimalView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, id):
-        animal = self.service.delete(id)
+        self.service.delete(id)
         return Response(status=status.HTTP_204_NO_CONTENT)
     

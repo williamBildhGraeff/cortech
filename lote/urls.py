@@ -1,6 +1,8 @@
 from rest_framework.routers import DefaultRouter
 from .views import LoteViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'lotes', LoteViewSet, basename = 'lotes')
-urlpatterns = router.urls
+urlpatterns = [
+    path('lotes/', LoteViewSet.as_view(), name='lotes'),
+    path('lotes/<int:id>/', LoteViewSet.as_view(), name='lotes')
+]
