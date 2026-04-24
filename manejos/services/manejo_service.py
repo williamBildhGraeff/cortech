@@ -1,4 +1,28 @@
-class ManejoService:
+from abc import ABC
+
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+
+from animais.models import HistoricoLoteAnimal
+from manejos.interfaces.manejo_interface import ManejoInterface
+from manejos.models import Manejo
+
+
+class ManejoService(ManejoInterface):
+
+    def post(self, data: dict):
+        animais = data.pop('animais', [])  # remove do dict
+        manejo = Manejo.objects.create(**data)
+        if animais:
+            manejo.animais.set(animais)
+        return manejo
+
+    def get(self, manejoid:int | None = None):
+        if manejoid:
+            return get_object_or_404(Manejo, id=manejoid)
+        return Manejo.objects.all()
 
     @staticmethod
     @transaction.atomic
@@ -61,3 +85,4 @@ class ManejoService:
             animal.save(update_fields=['lote'])
 
         return manejo
+
