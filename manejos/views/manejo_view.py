@@ -3,11 +3,8 @@ from rest_framework.views import APIView
 
 from ..factories import get_manejo_service
 from ..interfaces.manejo_interface import ManejoInterface
-from ..models import Manejo
-from ..serializers import ManejoSerializer, TipoManejoSerializer
-from rest_framework import viewsets, status
-
-from ..services.manejo_service import ManejoService
+from ..serializers import ManejoSerializer
+from rest_framework import status
 
 
 class ManejoViewSet(APIView):
