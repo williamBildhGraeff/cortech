@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/', include('pesagens.urls')),
     path('api/', include('manejos.urls')),
     path('api/', include('anomalias.urls')),
+    path('api/', include('produtor.urls')),
 ]
