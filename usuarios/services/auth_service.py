@@ -1,19 +1,20 @@
 from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
-def login_user(email, password, empresa_id):
-    user = authenticate(email=email, password=password)
+def login_user(email, password):
+    user = authenticate(
+        email=email,
+        password=password,
+    )
 
     if user is None:
-        raise AuthenticationFailed("Credenciais inválidas")
-
-    if not user.empresas.filter(id=empresa_id).exists():
-        raise AuthenticationFailed("Usuário não pertence a essa empresa")
+        raise AuthenticationFailed(
+            "Usuário e/ou senha inválidos."
+        )
 
     refresh = RefreshToken.for_user(user)
-    refresh["empresa_id"] = empresa_id
     refresh["role"] = user.role
 
     return {
@@ -23,7 +24,13 @@ def login_user(email, password, empresa_id):
             "id": user.id,
             "nome": user.nome,
             "email": user.email,
-            "role": user.role,
-            "empresa_id": empresa_id,
-        }
+            "role": user.role
+        },
+        "empresas": [
+            {
+                "id": emp.id,
+                "nome": emp.nome,
+            }
+            for emp in user.empresas.all()
+        ]
     }
