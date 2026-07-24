@@ -12,29 +12,35 @@ class ProdutorViewSet(APIView):
        super().__init__(**kwargs)
        self.service = get_produtor_service()
 
-     def get(self, request, produtor_id:int | None = None)-> Response:
-        produtor = self.service.get(produtor_id)
+     def get(self, request, produtor_id:int | None = None, empresa_id:int | None = None)-> Response:
+        produtor = self.service.get(produtor_id, empresa_id)
         if produtor_id:
            serializer = ProdutorSerializer(produtor)
         else:
            serializer = ProdutorSerializer(produtor, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-     def post(self, request):
-        serializer = ProdutorSerializer(data=request.data)
+     def post(self, request, empresa_id:int | None = None):
+        data = request.data.copy()
+        data['empresa'] = empresa_id
+        serializer = ProdutorSerializer(data=data)
         if serializer.is_valid():
            produtor = self.service.post(serializer.validated_data)
            return Response(ProdutorSerializer(produtor).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-     def put(self, request, produtor_id:int | None = None)-> Response:
+     def put(self, request, empresa_id:int | None = None, produtor_id:int | None = None)-> Response:
         produtor = self.service.get(produtor_id)
         serializer = ProdutorSerializer(produtor, data=request.data)
         if serializer.is_valid():
-           produtor = self.service.put(produtor_id, serializer.validated_data)
-           return Response(serializer.data, status=status.HTTP_200_OK)
+            produtor = self.service.put(produtor_id, serializer.validated_data)
+            return Response(
+                ProdutorSerializer(produtor).data,
+                status=status.HTTP_200_OK
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-     def delete(self, request, produtor_id:int | None = None)-> Response:
+     def delete(self, request, empresa_id:int | None = None, produtor_id:int | None = None)-> Response:
+
         self.service.delete(produtor_id)
         return Response(status=status.HTTP_204_NO_CONTENT)

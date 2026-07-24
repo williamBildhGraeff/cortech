@@ -41,7 +41,7 @@ class Animal(models.Model):
     score_rendimento = models.DecimalField(max_digits=10, decimal_places=3, default=0)
     lote = models.ForeignKey(
         "lote.Lote",
-        on_delete = models.PROTECT,
+        on_delete = models.CASCADE,
         related_name = 'animais'
     )
     status = models.CharField(max_length=20, choices = STATUS_CHOICES, default = 'ativo')

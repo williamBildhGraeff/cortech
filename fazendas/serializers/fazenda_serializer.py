@@ -5,6 +5,8 @@ from endereco.serializer import EnderecoSerializer
 
 class FazendaSerializer(serializers.ModelSerializer):
     endereco = EnderecoSerializer()
+    quantidade_lotes = serializers.IntegerField(read_only=True)
+    quantidade_animais = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Fazenda
