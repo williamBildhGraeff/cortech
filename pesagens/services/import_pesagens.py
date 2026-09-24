@@ -9,7 +9,7 @@ from decimal import Decimal
 from animais.models import HistoricoLoteAnimal
 
 class ImportarPesagensCSV(APIView):
- def post(self, request, lote_id, format=None):
+ def post(self, request, lote_id):
   arquivo = request.FILES.get('file')
   if not arquivo:
    return Response ({"erro": "Nenhum arquivo enviado"}, status = 400)
@@ -68,7 +68,6 @@ class ImportarPesagensCSV(APIView):
 
     # atualiza animal
     animal.lote_id = lote_id
-    animal.status = "transferido"
     animal.save()
     pesagem, created = Pesagem.objects.update_or_create(
       animal=animal,

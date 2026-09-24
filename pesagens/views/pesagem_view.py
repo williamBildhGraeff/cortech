@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 
 from ..factories.pesagem_factory import get_pesagem_service
 from ..interfaces.pesagens_interface import PesagemInterface
-from ..serializer import PesagemSerializer
+from ..serializer import PesagemSerializer, PesagemIndicadoresSerializer
 
 
 class PesagemViewSet(APIView):
@@ -12,15 +12,49 @@ class PesagemViewSet(APIView):
       super().__init__(**kwargs)
       self.service = service or get_pesagem_service()
 
-   def get(self, request, pesagem_id:int | None = None) -> Response:
-      dados = self.service.get(pesagem_id)
-      if pesagem_id:
-         serializer = PesagemSerializer(dados)
+   def get(self, request, animal_id:int | None = None, lote_id:int | None = None) -> Response:
+      if animal_id:
+         dados = self.service.get(animal_id=animal_id)
+         indicadores_serializer = PesagemIndicadoresSerializer(dados['indicadores'])
+         pesagens_serializer = PesagemSerializer(dados['pesagens'], many=True)
+         resposta = {
+            'indicadores': indicadores_serializer.data,
+            'pesagens': pesagens_serializer.data
+         }
       else:
-         serializer = PesagemSerializer(dados, many=True)
-      return Response(serializer.data, status=status.HTTP_200_OK)
+         dados = self.service.get(lote_id=lote_id)
+         serializer = PesagemSerializer(dados['pesagens'], many=True)
+         resposta = {
+            'pesagens': serializer.data,
+            'analise': dados['analise']
+         }
+      return Response(resposta, status=status.HTTP_200_OK)
 
-   def post(self, request) -> Response:
+   def put(self, request, pesagem_id: int) -> Response:
+
+      serializer = PesagemSerializer(
+         data=request.data,
+         partial=True
+      )
+
+      serializer.is_valid(
+         raise_exception=True
+      )
+
+      print(serializer.validated_data)
+      pesagem = self.service.put(
+         pesagem_id,
+         serializer.validated_data
+      )
+
+      return Response(PesagemSerializer(pesagem).data, status=status.HTTP_200_OK)
+
+   def delete(self, request, pesagem_id: int) -> Response:
+      self.service.delete(pesagem_id)
+      return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+   def post(self, request, animal_id:int = None) -> Response:
       serializer = PesagemSerializer(data=request.data)
       if serializer.is_valid():
         pesagem = self.service.post(serializer.validated_data)
